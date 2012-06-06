@@ -2,7 +2,7 @@
 
 using namespace std;
 
-unsigned long subAbs(long, long);
+unsigned long subAbs(long num1, long num2);
 
 int main()
 {

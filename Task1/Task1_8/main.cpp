@@ -2,7 +2,7 @@
 
 using namespace std;
 
-unsigned long setEldestBit(unsigned long);
+unsigned long setEldestBit(unsigned long number);
 
 int main()
 {

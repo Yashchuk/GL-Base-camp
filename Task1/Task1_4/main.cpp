@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void swapBits(unsigned long &, unsigned, unsigned);
+void swapBits(unsigned long &number, unsigned bit1, unsigned bit2);
 
 int main()
 {

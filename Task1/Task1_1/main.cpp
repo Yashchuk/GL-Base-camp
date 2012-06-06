@@ -2,7 +2,7 @@
 
 using namespace std;
 
-unsigned long getNextEvenNumber(unsigned long);
+unsigned long getNextEvenNumber(unsigned long number);
 
 int main()
 {
