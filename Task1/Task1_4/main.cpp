@@ -17,6 +17,7 @@ int main()
 	cout << "Before:\t" << itoa(number, buf, 2) << endl;
 	swapBits(number, bit1, bit2);
 	cout << "After:\t" << itoa(number, buf, 2) << endl;
+
 	return 0;
 }
 
@@ -39,4 +40,5 @@ void swapBits(unsigned long &number, unsigned bit1, unsigned bit2)
 
 	// Apply masks to number
 	number ^= mask1 | mask2; 
+
 }
