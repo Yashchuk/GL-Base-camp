@@ -17,7 +17,6 @@ int main()
 	cout << "Before:\t" << itoa(number, buf, 2) << endl;
 	swapBits(number, bit1, bit2);
 	cout << "After:\t" << itoa(number, buf, 2) << endl;
-
 	return 0;
 }
 
@@ -34,10 +33,10 @@ void swapBits(unsigned long &number, unsigned bit1, unsigned bit2)
 	// Compare using XOR
 	unsigned equal = bitVal1 ^ bitVal2; 
 
-	bitVal1 = (bitVal1 | equal) & equal; 
-	bitVal2 = (bitVal2 | equal) & equal;
+	// Create new masks (should be 0 if bits are equal)
+	mask1 = equal << bit1;
+	mask2 = equal << bit2;
 
-	cout << bitVal1 << endl << bitVal2 <<endl;
-
-	number ^= (bitVal1 << bit2) | (bitVal2 << bit1); 
+	// Apply masks to number
+	number ^= mask1 | mask2; 
 }
