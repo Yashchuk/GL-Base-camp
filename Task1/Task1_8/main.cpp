@@ -23,16 +23,16 @@ unsigned long setEldestBit(unsigned long number)
 	/* Generate mask, filled with 1 after the eldest null bit
 	* Example:
 	* 11111110011000100000000000000000
-	*				|
-	*				V
+	*               |
+	*               V
 	* 00000001111111111111111111111111
 	*/
 	unsigned long mask = ~number;
 	mask |= mask >> 1;
-    mask |= mask >> 2;
-    mask |= mask >> 4;
-    mask |= mask >> 8;
-    mask |= mask >> 16;
+	mask |= mask >> 2;
+	mask |= mask >> 4;
+	mask |= mask >> 8;
+	mask |= mask >> 16;
 	mask |= mask >> 32;
 	
 	// Highlight bit
