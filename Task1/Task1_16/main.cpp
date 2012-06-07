@@ -21,7 +21,6 @@ unsigned long fillBits(unsigned start, unsigned length)
 	unsigned long result = ~0;
 
 	unsigned long mask1 = result >> (32 - start - length);
-
 	unsigned long mask2 = result >> (32 - start);
 
 	result = mask1 ^ mask2;
