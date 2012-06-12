@@ -20,7 +20,7 @@ unsigned long subAbs(long num1, long num2)
 	unsigned long result = num1 - num2;
 
 	// Get sign bit from result
-	unsigned long signBit = (result >> 31) & 1;
+	unsigned long signBit = result >> 31;
 
 	// Inverse and increment result if sign bit is set
 	result = (result ^ (~signBit + 1)) + signBit;
