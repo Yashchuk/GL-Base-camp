@@ -13,12 +13,17 @@
 
 using namespace std;
 
+/* Struct represents a point in 3d space */
 struct point
 {
 	float x;
 	float y;
 };
 
+/* 
+ Struct represents a traingle that consists of 
+ three 2d vertex coordinates
+ */
 struct triangle
 {
 	point a;
@@ -84,7 +89,7 @@ void sortByPerimeter(triangle *triangles, int count)
 	{
 		for(int j = 0; j < i; j++)
 		{ 
-			if(getPerimeter(triangles[j]) <= getPerimeter(triangles[i]))
+			if(getPerimeter(triangles[j]) < getPerimeter(triangles[i]))
 			{
 				triangle temp = triangles[j];
 				triangles[j] = triangles[i];
@@ -99,14 +104,14 @@ float getPerimeter(const triangle &triangle)
 	point ab, bc, ac;
 
 	// Calculate vector for each side
-	ab.x = abs(triangle.a.x - triangle.b.x);
-	ab.y = abs(triangle.a.y - triangle.b.y);
+	ab.x = triangle.a.x - triangle.b.x;
+	ab.y = triangle.a.y - triangle.b.y;
 
-	bc.x = abs(triangle.b.x - triangle.c.x);
-	bc.y = abs(triangle.b.y - triangle.c.y);
+	bc.x = triangle.b.x - triangle.c.x;
+	bc.y = triangle.b.y - triangle.c.y;
 
-	ac.x = abs(triangle.a.x - triangle.c.x);
-	ac.y = abs(triangle.a.y - triangle.c.y);
+	ac.x = triangle.a.x - triangle.c.x;
+	ac.y = triangle.a.y - triangle.c.y;
 
 	// Return sum of vector lengths
 	return sqrt(ab.x * ab.x + ab.y * ab.y) + 
