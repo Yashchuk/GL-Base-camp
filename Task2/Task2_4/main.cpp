@@ -110,7 +110,7 @@ void printData(KeyValuePair *data, int count)
 	for(int i = 0; i < count; i++)
 	{
 		cout << endl << "Key: " << data[i].key << endl;
-		cout << "Data: " << data[i].value << endl;
+		cout << "Value: " << data[i].value << endl;
 	}
 }
 
