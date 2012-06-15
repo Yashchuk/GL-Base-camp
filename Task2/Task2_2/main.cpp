@@ -116,7 +116,7 @@ void printData(rectangle *rectangles, int count)
 
 	rect = getBiggestRectangle(rectangles, count);
 	
-	cout << endl << "Rectangle with the biggest area" << endl;
+	cout << "Rectangle with the biggest area" << endl;
 	cout << rect->topLeft.x << " " << rect->topLeft.y << "\t\t\t\t";
 	cout << rect->bottomRight.y << " " << rect->bottomRight.y << endl;
 }
