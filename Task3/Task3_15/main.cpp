@@ -5,6 +5,7 @@
  */
 
 #include <iostream>
+#include <locale>
 #define MAX_LEN 200
 
 using namespace std;
@@ -52,13 +53,13 @@ void hideWords(char *pStr, char c)
 	while(*pStr)
 	{
 		// Beginning of a word found
-		if(*pStr != ' ')
+		if(!isspace((unsigned char)*pStr))
 		{
 			char *pStart = pStr;
 			bool hide = false;
 
 			// Loop to find the end of a word
-			while(*pStr && (*pStr != ' '))
+			while(*pStr && !isspace((unsigned char)*pStr))
 			{
 				// Check if word contains a character
 				if(*pStr == c)
