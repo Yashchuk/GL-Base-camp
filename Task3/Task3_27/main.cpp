@@ -13,7 +13,7 @@ using namespace std;
 /**
   * @brief	Function removes all numeric character is string
   * @param	[in,out]    pStr Pointer to a string ending with '\0'
-  * @return	Number if removed characters
+  * @return	Number of removed characters
   */
 unsigned removeNumbers(char *pStr);
 
