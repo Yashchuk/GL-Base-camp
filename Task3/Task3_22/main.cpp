@@ -8,8 +8,22 @@
 
 using namespace std;
 
+/**
+  * @brief	Function calculates dot(scalar) product of two vectors represented as float arrays
+  * @param	[in]    vec1 Pointer to first vector
+  * @param	[in]    vec2 Pointer to second vector
+  * @param	[in]    vecSize Size of both vectors
+  * @return	Dot(scalar) product
+  */
 float dotProduct(float *vec1, float *vec2, unsigned vecSize);
 
+/**
+  * @brief	Function swaps two rows with the greatest dot product
+  * @param	[in,out]    matrix Matrix as 2d float array
+  * @param	[in]		rows Number of rows in matrix
+  * @param	[in]		columns Number of columns in matrix
+  * @return	void
+  */
 void swapRowsWithGreatestDotProduct(float **matrix, unsigned rows, unsigned columns);
 
 int main()
@@ -70,6 +84,7 @@ void swapRowsWithGreatestDotProduct(float **matrix, unsigned rows, unsigned colu
 	float max = 0.0f;
 	unsigned row1 = 0, row2 = 0;
 
+	// Find max dot product and fix row positions
 	for(unsigned i = 0; i < rows - 1; i++)
 	{
 		for(unsigned j = i + 1; j < rows; j++)
@@ -85,6 +100,7 @@ void swapRowsWithGreatestDotProduct(float **matrix, unsigned rows, unsigned colu
 		}
 	}
 
+	// Print values
 	cout << "Rows with the greatest dot product are:" << endl;
 	cout << row1 + 1 << ": ( ";
 	for(unsigned i = 0; i < columns; i++)
@@ -96,6 +112,7 @@ void swapRowsWithGreatestDotProduct(float **matrix, unsigned rows, unsigned colu
 		cout << matrix[row2][i] << " ";
 	cout << ")" << endl;
 
+	// Swap rows
 	for(unsigned i = 0; i < columns; i++)
 	{
 		float temp = matrix[row2][i];
