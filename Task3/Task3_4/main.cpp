@@ -33,7 +33,7 @@ int main()
 
 void getNumberAsString(char *pBuf, unsigned bufSize, int number)
 {
-	if(!bufSize)
+	if(!bufSize || (number < -99) || (number > 99))
 		return;
 
 	char *strTable[] = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
@@ -48,25 +48,31 @@ void getNumberAsString(char *pBuf, unsigned bufSize, int number)
 		number = -number;
 	}
 
+	// Get first digit of number
 	int digit = number / 10;
 
+	// Number is >= 20
 	if(digit > 1)
 	{
 		strcat(result, strTable[20 + digit - 2]);
 		strcat(result, " ");
 	}
 
+	// Check if number > 9 and < 20
 	if(digit == 1)
 	{
+		// Get last digit in number
 		digit = number % 10;
 		strcat(result, strTable[10 + digit]);
 	}
 	else
 	{
+		// Get last digit in number
 		digit = number % 10;
 		strcat(result, strTable[digit]);
 	}
 	
+	// Copy result into given buffer
 	int resLen = strlen(result) + 1; 
 	strncpy(pBuf, result, resLen < bufSize ? resLen : bufSize); 
 }
