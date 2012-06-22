@@ -132,7 +132,7 @@ int getSum(int *arg, unsigned nArgs)
 		sum = 0;
 		for (int i = y1; i <= y2; i++)
 		{
-			sum += matrix[i * size + x2] - matrix[i * size + x1];
+			sum += matrix[i * size + x2] - matrix[i * size + x1 - x1 > 0 ? 1 : 0];
 		}
 	}
 
