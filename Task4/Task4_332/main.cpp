@@ -117,8 +117,8 @@ unsigned readPlanes(Plane **planes, ifstream &stream)
 	int j = 0;
 	while (!stream.eof() && (j < n))
 	{
-		stream >> (*planes)[j].x1 >> (*planes)[j].y1;
-		stream >> (*planes)[j].x2 >> (*planes)[j].y2;
+		stream >> (*planes)[j].x1 >> (*planes)[j].z1;
+		stream >> (*planes)[j].x2 >> (*planes)[j].z2;
 		j++;
 	}
 

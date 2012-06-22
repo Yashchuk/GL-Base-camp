@@ -1,6 +1,8 @@
 #ifndef BSP_TREE_H
 #define BSP_TREE_H
 
+#define NULL 0
+
 struct Vertex
 {
 	int x;
@@ -9,8 +11,8 @@ struct Vertex
 
 struct Plane
 {
-	int x1, y1;
-	int x2, y2;
+	int x1, z1;
+	int x2, z2;
 };
 
 struct Object
@@ -22,8 +24,7 @@ struct Object
 
 struct TreeNode
 {
-	Plane partitionPlane[2];
-	Object *pObjects;
+	Object **pObjects;
 	unsigned nObjects;
 	TreeNode *left;
 	TreeNode *right;
