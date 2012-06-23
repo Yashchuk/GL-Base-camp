@@ -9,10 +9,15 @@ unsigned nObjects = 0;
 Plane *planes = NULL;
 unsigned nPlanes = 0;
 
+// Load data from file
 bool loadFromFile(const char *fileName);
+
+// Subfunction for reading objects
 unsigned readObjects(Object **objects, ifstream &stream);
+
+// Subfunction for reading planes
 unsigned readPlanes(Plane **planes, ifstream &stream);
-void printTree(TreeNode *root);
+
 void cleanUp();
 
 int main()
@@ -24,31 +29,12 @@ int main()
 	}
 
 	TreeNode *root = generateTree(objects, nObjects, planes, nPlanes);
-
 	printTree(root);
 
+	deleteTree(root);
 	cleanUp();
 
 	return 0;
-}
-
-void printTree(TreeNode *root)
-{
-	for (int i = 0; i < root->nObjects; i++)
-	{
-		cout << (char)root->pObjects[i]->id;
-	}
-	cout << endl;
-	if (root->left)
-	{
-		cout << "Left: ";
-		printTree(root->left);
-	}
-	if (root->right)
-	{
-		cout << "Right: ";
-		printTree(root->right);
-	}
 }
 
 void cleanUp()
@@ -84,7 +70,6 @@ bool loadFromFile(const char *fileName)
 
 	return true;
 }
-
 
 unsigned readObjects(Object **objects, ifstream &stream)
 {
