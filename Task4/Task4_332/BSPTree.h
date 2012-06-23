@@ -26,6 +26,8 @@ struct TreeNode
 {
 	Object **pObjects;
 	unsigned nObjects;
+	Plane **partitionPlanes;
+	unsigned nPartitionPlanes;
 	TreeNode *left;
 	TreeNode *right;
 };
