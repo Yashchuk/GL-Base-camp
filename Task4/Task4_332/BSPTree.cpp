@@ -220,13 +220,23 @@ void printTree(TreeNode *root)
 {
 	if (root)
 	{
-		printTree(root->right);
-		printTree(root->left);
 		for (int i = 0; i < root->nObjects; i++)
 		{
 			std::cout << (char)root->pObjects[i]->id;
 		}
 		std::cout << std::endl;
+
+		if (root->right)
+		{
+			std::cout << "Right" << std::endl;
+			printTree(root->right);
+		}
+
+		if (root->left)
+		{
+			std::cout << "Left" << std::endl;
+			printTree(root->left);
+		}
 	}
 }
 
