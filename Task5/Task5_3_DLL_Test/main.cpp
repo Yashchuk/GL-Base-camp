@@ -8,12 +8,13 @@ bool reverseString(char *pChString);
 
 int main()
 {
-	char buf[MAX_LEN];
 	if (!loadUpDll())
 	{
 		cout << "Error while loading dll" << endl;
 		return 1;
 	}
+
+	char buf[MAX_LEN];
 
 	while (true)
 	{
@@ -25,6 +26,7 @@ int main()
 		cout << buf << endl;
 	}
 
+	unloadDll();
 	return 0;
 }
 

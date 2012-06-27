@@ -1,6 +1,6 @@
 #include "Stack.h"
 #include <vector>
-
+#include <iostream>
 std::vector<char> data;
 
 void clearStack()
@@ -23,13 +23,12 @@ bool pushCharacter(char c)
 	{
 		return false;
 	}
-
 	return true;
 }
 
 char popCharacter()
 {
-	if(!isEmpty())
+	if(!data.size())
 	{
 		return 0;
 	}
@@ -42,7 +41,7 @@ char popCharacter()
 
 char peekCharacter()
 {
-	if(!isEmpty())
+	if(!data.size())
 	{
 		return 0;
 	}
