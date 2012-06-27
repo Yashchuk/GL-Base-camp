@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_3_LIB", "Task5_3_LIB\Task5_3_LIB.vcxproj", "{D27B9E62-B791-42FE-849E-C155FAF1E27A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_3_LIB_Test", "Task5_3_LIB_Test\Task5_3_LIB_Test.vcxproj", "{4DEE0CD3-4AE0-46AE-8351-DE44084C1790}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D27B9E62-B791-42FE-849E-C155FAF1E27A} = {D27B9E62-B791-42FE-849E-C155FAF1E27A}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D27B9E62-B791-42FE-849E-C155FAF1E27A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D27B9E62-B791-42FE-849E-C155FAF1E27A}.Debug|Win32.Build.0 = Debug|Win32
+		{D27B9E62-B791-42FE-849E-C155FAF1E27A}.Release|Win32.ActiveCfg = Release|Win32
+		{D27B9E62-B791-42FE-849E-C155FAF1E27A}.Release|Win32.Build.0 = Release|Win32
+		{4DEE0CD3-4AE0-46AE-8351-DE44084C1790}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4DEE0CD3-4AE0-46AE-8351-DE44084C1790}.Debug|Win32.Build.0 = Debug|Win32
+		{4DEE0CD3-4AE0-46AE-8351-DE44084C1790}.Release|Win32.ActiveCfg = Release|Win32
+		{4DEE0CD3-4AE0-46AE-8351-DE44084C1790}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
