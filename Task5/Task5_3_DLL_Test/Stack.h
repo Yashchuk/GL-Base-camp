@@ -41,6 +41,18 @@ FUNC3 popCharacter;
   */
 FUNC3 peekCharacter;
 
+/**
+  * @brief		Load fucntions from dll
+  * @return		Flase if error occured
+  */
+bool loadUpDll();
+
+/**
+  * @brief		Unload dll
+  * @return		void
+  */
+void unloadDll();
+
 bool loadUpDll()
 {
 	HINSTANCE hLib = LoadLibrary("Task5_3_DLL.dll");
