@@ -35,6 +35,8 @@ bool setPoint(point &p, unsigned index)
 	}
 
 	points[index] = p;
+
+	return true;
 }
 
 void clearLines()
@@ -65,6 +67,8 @@ bool setLine(line &l, unsigned index)
 	}
 
 	lines[index] = l;
+
+	return true;
 }
 
 float lineLength(unsigned index)
@@ -99,4 +103,75 @@ int liesOnLine(unsigned pointIndex, unsigned lineIndex)
 	}
 
 	return 0;
+}
+
+int liesOnLineSegment(unsigned pointIndex, unsigned lineIndex)
+{
+	if (lineIndex >= lines.size() || pointIndex >= points.size())
+	{
+		return -1;
+	}
+
+	if (lines[lineIndex].a.x < lines[lineIndex].b.x)
+	{
+		if (points[pointIndex].x < lines[lineIndex].a.x ||
+			points[pointIndex].x > lines[lineIndex].b.x)
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		if (points[pointIndex].x > lines[lineIndex].a.x ||
+			points[pointIndex].x < lines[lineIndex].b.x)
+		{
+			return 0;
+		}
+	}
+
+	if (lines[lineIndex].a.y < lines[lineIndex].b.y)
+	{
+		if (points[pointIndex].y < lines[lineIndex].a.y ||
+			points[pointIndex].y > lines[lineIndex].b.y)
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		if (points[pointIndex].y > lines[lineIndex].a.y ||
+			points[pointIndex].y < lines[lineIndex].b.y)
+		{
+			return 0;
+		}
+	}
+
+	return liesOnLine(pointIndex, lineIndex);
+}
+
+float triangleArea(unsigned pointIndex, unsigned lineIndex)
+{
+	if (lineIndex >= lines.size() || pointIndex >= points.size())
+	{
+		return 0.0f;
+	}
+
+	float dx = lines[lineIndex].a.x - lines[lineIndex].b.x;
+	float dy = lines[lineIndex].a.y - lines[lineIndex].b.y;
+
+	float a = sqrt(dx * dx + dy * dy);
+
+	dx = lines[lineIndex].a.x - points[pointIndex].x;
+	dy = lines[lineIndex].a.y - points[pointIndex].y;
+
+	float b = sqrt(dx * dx + dy * dy);
+
+	dx = lines[lineIndex].b.x - points[pointIndex].x;
+	dy = lines[lineIndex].b.y - points[pointIndex].y;
+
+	float c = sqrt(dx * dx + dy * dy);
+
+	float p = (a + b + c) / 2;
+
+	return sqrt(p * (p - a) * (p - b) * (p - c));
 }
