@@ -1,6 +1,6 @@
 #include "Stack.h"
 #include <vector>
-#include <iostream>
+
 std::vector<char> data;
 
 void clearStack()

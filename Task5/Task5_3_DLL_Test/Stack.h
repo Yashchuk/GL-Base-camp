@@ -92,7 +92,7 @@ bool loadUpDll()
 
 void unloadDll()
 {
-	if (!hLib)
+	if (hLib)
 	{
 		FreeLibrary(hLib);
 	}
