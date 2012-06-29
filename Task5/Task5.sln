@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.txt = README.txt
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_LIB_Test", "Task5_4_LIB_Test\Task5_4_LIB_Test.vcxproj", "{1E55F4E7-196D-4B0C-B74E-CEFB55612369}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_LIB", "Task5_4_LIB\Task5_4_LIB.vcxproj", "{77F9BE1B-E59D-4934-AD5F-912044C68118}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -42,6 +46,14 @@ Global
 		{ADDB21A2-72D1-44BD-AE5F-F2AD33444DCF}.Debug|Win32.Build.0 = Debug|Win32
 		{ADDB21A2-72D1-44BD-AE5F-F2AD33444DCF}.Release|Win32.ActiveCfg = Release|Win32
 		{ADDB21A2-72D1-44BD-AE5F-F2AD33444DCF}.Release|Win32.Build.0 = Release|Win32
+		{1E55F4E7-196D-4B0C-B74E-CEFB55612369}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1E55F4E7-196D-4B0C-B74E-CEFB55612369}.Debug|Win32.Build.0 = Debug|Win32
+		{1E55F4E7-196D-4B0C-B74E-CEFB55612369}.Release|Win32.ActiveCfg = Release|Win32
+		{1E55F4E7-196D-4B0C-B74E-CEFB55612369}.Release|Win32.Build.0 = Release|Win32
+		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Debug|Win32.ActiveCfg = Debug|Win32
+		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Debug|Win32.Build.0 = Debug|Win32
+		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Release|Win32.ActiveCfg = Release|Win32
+		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
