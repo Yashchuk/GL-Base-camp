@@ -55,7 +55,7 @@ void unloadDll();
 
 bool loadUpDll()
 {
-	HINSTANCE hLib = LoadLibrary("Task5_3_DLL.dll");
+	hLib = LoadLibrary("Task5_3_DLL.dll");
 	if (!hLib)
 	{
 		return false;

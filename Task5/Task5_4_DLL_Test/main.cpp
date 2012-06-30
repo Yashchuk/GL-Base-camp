@@ -13,6 +13,11 @@ int main()
 	point temp = {0};
 	point inputPoint = {0};
 	
+	if (!loadUpDll())
+	{
+		return 1;
+	}
+
 	while (true)
 	{
 		cin.clear();
@@ -54,6 +59,8 @@ int main()
 	printMaxTriangle();
 	
 	printLine();
+
+	unloadDll();
 
 	return 0;
 }
@@ -109,7 +116,7 @@ bool printMaxTriangle()
 		{
 			for (int k = j + 1; k < points(); k++)
 			{
-				float temp = triangleArea(i, j, k);
+				float temp = triangleArea2(i, j, k);
 				if (temp > max)
 				{
 					max = temp;

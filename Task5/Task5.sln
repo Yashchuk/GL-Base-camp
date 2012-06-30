@@ -24,6 +24,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_LIB_Test", "Task5_4
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_LIB", "Task5_4_LIB\Task5_4_LIB.vcxproj", "{77F9BE1B-E59D-4934-AD5F-912044C68118}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_DLL", "Task5_4_DLL\Task5_4_DLL.vcxproj", "{69A89A6A-1545-4D8C-89BB-8D4FD0FAB9D0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_4_DLL_Test", "Task5_4_DLL_Test\Task5_4_DLL_Test.vcxproj", "{F60AF895-9DD7-42B0-9253-E3D915972E99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -54,6 +58,14 @@ Global
 		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Debug|Win32.Build.0 = Debug|Win32
 		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Release|Win32.ActiveCfg = Release|Win32
 		{77F9BE1B-E59D-4934-AD5F-912044C68118}.Release|Win32.Build.0 = Release|Win32
+		{69A89A6A-1545-4D8C-89BB-8D4FD0FAB9D0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{69A89A6A-1545-4D8C-89BB-8D4FD0FAB9D0}.Debug|Win32.Build.0 = Debug|Win32
+		{69A89A6A-1545-4D8C-89BB-8D4FD0FAB9D0}.Release|Win32.ActiveCfg = Release|Win32
+		{69A89A6A-1545-4D8C-89BB-8D4FD0FAB9D0}.Release|Win32.Build.0 = Release|Win32
+		{F60AF895-9DD7-42B0-9253-E3D915972E99}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F60AF895-9DD7-42B0-9253-E3D915972E99}.Debug|Win32.Build.0 = Debug|Win32
+		{F60AF895-9DD7-42B0-9253-E3D915972E99}.Release|Win32.ActiveCfg = Release|Win32
+		{F60AF895-9DD7-42B0-9253-E3D915972E99}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -186,7 +186,7 @@ float triangleArea(unsigned pointIndex, unsigned lineIndex)
 	return sqrt(p * (p - a) * (p - b) * (p - c));
 }
 
-float triangleArea(unsigned point1, unsigned point2, unsigned point3)
+float triangleArea2(unsigned point1, unsigned point2, unsigned point3)
 {
 	if (point1 >= pointsVec.size() || point2 >= pointsVec.size() || point3 >= pointsVec.size())
 	{
