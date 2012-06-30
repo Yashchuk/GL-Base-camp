@@ -4,98 +4,108 @@
 
 #define EPS .0001
 
-std::vector<point> points;
-std::vector<line> lines;
+std::vector<point> pointsVec;
+std::vector<line> linesVec;
+
+unsigned points()
+{
+	return pointsVec.size();
+}
+
+unsigned lines()
+{
+	return linesVec.size();
+}
 
 void clearPoints()
 {
-	points.clear();
+	pointsVec.clear();
 }
 
 void addPoint(point &p)
 {
-	points.push_back(p);
+	pointsVec.push_back(p);
 }
 
 point* getPoint(unsigned index)
 {
-	if (index >= points.size())
+	if (index >= pointsVec.size())
 	{
 		return NULL;
 	}
 
-	return &points[index];
+	return &pointsVec[index];
 }
 
 bool setPoint(point &p, unsigned index)
 {
-	if (index >= points.size())
+	if (index >= pointsVec.size())
 	{
 		return false;
 	}
 
-	points[index] = p;
+	pointsVec[index] = p;
 
 	return true;
 }
 
 void clearLines()
 {
-	lines.clear();
+	linesVec.clear();
 }
 
 void addLine(line &l)
 {
-	lines.push_back(l);
+	linesVec.push_back(l);
 }
 
 line* getLine(unsigned index)
 {
-	if (index >= lines.size())
+	if (index >= linesVec.size())
 	{
 		return NULL;
 	}
 
-	return &lines[index];
+	return &linesVec[index];
 }
 
 bool setLine(line &l, unsigned index)
 {
-	if (index >= lines.size())
+	if (index >= linesVec.size())
 	{
 		return false;
 	}
 
-	lines[index] = l;
+	linesVec[index] = l;
 
 	return true;
 }
 
 float lineLength(unsigned index)
 {
-	if (index >= lines.size())
+	if (index >= linesVec.size())
 	{
 		return 0;
 	}
 
-	float dx = lines[index].a.x - lines[index].b.x;
-	float dy = lines[index].a.y - lines[index].b.y;
+	float dx = linesVec[index].a.x - linesVec[index].b.x;
+	float dy = linesVec[index].a.y - linesVec[index].b.y;
 
 	return sqrt(dx * dx + dy * dy);
 }
 
 int liesOnLine(unsigned pointIndex, unsigned lineIndex)
 {
-	if (lineIndex >= lines.size() || pointIndex >= points.size())
+	if (lineIndex >= linesVec.size() || pointIndex >= pointsVec.size())
 	{
 		return -1;
 	}
 
-	float res = (points[pointIndex].x - lines[lineIndex].a.x) / 
-				(lines[pointIndex].b.x - lines[lineIndex].a.x);
+	float res = (pointsVec[pointIndex].x - linesVec[lineIndex].a.x) / 
+				(linesVec[pointIndex].b.x - linesVec[lineIndex].a.x);
 
-	res -= (points[pointIndex].y - lines[lineIndex].a.y) / 
-		   (lines[pointIndex].b.y - lines[lineIndex].a.y);
+	res -= (pointsVec[pointIndex].y - linesVec[lineIndex].a.y) / 
+		   (linesVec[pointIndex].b.y - linesVec[lineIndex].a.y);
 
 	if (res < EPS && res > -EPS)
 	{
@@ -107,40 +117,40 @@ int liesOnLine(unsigned pointIndex, unsigned lineIndex)
 
 int liesOnLineSegment(unsigned pointIndex, unsigned lineIndex)
 {
-	if (lineIndex >= lines.size() || pointIndex >= points.size())
+	if (lineIndex >= linesVec.size() || pointIndex >= pointsVec.size())
 	{
 		return -1;
 	}
 
-	if (lines[lineIndex].a.x < lines[lineIndex].b.x)
+	if (linesVec[lineIndex].a.x < linesVec[lineIndex].b.x)
 	{
-		if (points[pointIndex].x < lines[lineIndex].a.x ||
-			points[pointIndex].x > lines[lineIndex].b.x)
+		if (pointsVec[pointIndex].x < linesVec[lineIndex].a.x ||
+			pointsVec[pointIndex].x > linesVec[lineIndex].b.x)
 		{
 			return 0;
 		}
 	}
 	else
 	{
-		if (points[pointIndex].x > lines[lineIndex].a.x ||
-			points[pointIndex].x < lines[lineIndex].b.x)
+		if (pointsVec[pointIndex].x > linesVec[lineIndex].a.x ||
+			pointsVec[pointIndex].x < linesVec[lineIndex].b.x)
 		{
 			return 0;
 		}
 	}
 
-	if (lines[lineIndex].a.y < lines[lineIndex].b.y)
+	if (linesVec[lineIndex].a.y < linesVec[lineIndex].b.y)
 	{
-		if (points[pointIndex].y < lines[lineIndex].a.y ||
-			points[pointIndex].y > lines[lineIndex].b.y)
+		if (pointsVec[pointIndex].y < linesVec[lineIndex].a.y ||
+			pointsVec[pointIndex].y > linesVec[lineIndex].b.y)
 		{
 			return 0;
 		}
 	}
 	else
 	{
-		if (points[pointIndex].y > lines[lineIndex].a.y ||
-			points[pointIndex].y < lines[lineIndex].b.y)
+		if (pointsVec[pointIndex].y > linesVec[lineIndex].a.y ||
+			pointsVec[pointIndex].y < linesVec[lineIndex].b.y)
 		{
 			return 0;
 		}
@@ -151,23 +161,50 @@ int liesOnLineSegment(unsigned pointIndex, unsigned lineIndex)
 
 float triangleArea(unsigned pointIndex, unsigned lineIndex)
 {
-	if (lineIndex >= lines.size() || pointIndex >= points.size())
+	if (lineIndex >= linesVec.size() || pointIndex >= pointsVec.size())
 	{
 		return 0.0f;
 	}
 
-	float dx = lines[lineIndex].a.x - lines[lineIndex].b.x;
-	float dy = lines[lineIndex].a.y - lines[lineIndex].b.y;
+	float dx = linesVec[lineIndex].a.x - linesVec[lineIndex].b.x;
+	float dy = linesVec[lineIndex].a.y - linesVec[lineIndex].b.y;
 
 	float a = sqrt(dx * dx + dy * dy);
 
-	dx = lines[lineIndex].a.x - points[pointIndex].x;
-	dy = lines[lineIndex].a.y - points[pointIndex].y;
+	dx = linesVec[lineIndex].a.x - pointsVec[pointIndex].x;
+	dy = linesVec[lineIndex].a.y - pointsVec[pointIndex].y;
 
 	float b = sqrt(dx * dx + dy * dy);
 
-	dx = lines[lineIndex].b.x - points[pointIndex].x;
-	dy = lines[lineIndex].b.y - points[pointIndex].y;
+	dx = linesVec[lineIndex].b.x - pointsVec[pointIndex].x;
+	dy = linesVec[lineIndex].b.y - pointsVec[pointIndex].y;
+
+	float c = sqrt(dx * dx + dy * dy);
+
+	float p = (a + b + c) / 2;
+
+	return sqrt(p * (p - a) * (p - b) * (p - c));
+}
+
+float triangleArea(unsigned point1, unsigned point2, unsigned point3)
+{
+	if (point1 >= pointsVec.size() || point2 >= pointsVec.size() || point3 >= pointsVec.size())
+	{
+		return 0.0f;
+	}
+
+	float dx = pointsVec[point1].x - pointsVec[point2].x;
+	float dy = pointsVec[point1].y - pointsVec[point2].y;
+
+	float a = sqrt(dx * dx + dy * dy);
+
+	dx = pointsVec[point1].x - pointsVec[point3].x;
+	dy = pointsVec[point1].y - pointsVec[point3].y;
+
+	float b = sqrt(dx * dx + dy * dy);
+
+	dx = pointsVec[point2].x - pointsVec[point3].x;
+	dy = pointsVec[point2].y - pointsVec[point3].y;
 
 	float c = sqrt(dx * dx + dy * dy);
 

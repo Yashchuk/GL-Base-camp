@@ -1,3 +1,10 @@
+/** 
+  * @file	Library.h
+  * @brief	Simple implementation of logic around 2d lines and points
+  *	@author	Vitaliy Sidenko
+  * @date	30/06/2012
+  */
+
 #ifndef _LIB_H
 #define _LIB_H
 
@@ -12,6 +19,16 @@ struct line
 {
 	point a, b;
 };
+
+/**
+  * @brief		Gets number of saved points
+  */
+unsigned points();
+
+/**
+  * @brief		Gets number of saved lines
+  */
+unsigned lines();
 
 /**
   * @brief		Clear all points
@@ -99,5 +116,14 @@ int liesOnLineSegment(unsigned pointIndex, unsigned lineIndex);
   * @return		Traingle area or 0 if index does not exist
   */
 float triangleArea(unsigned pointIndex, unsigned lineIndex);
+
+/**
+  * @brief		Get triangle data by given point indexes
+  * @param		[in] point1 1st Point index
+  * @param		[in] point2 2d Point index
+  * @param		[in] point3 3d Point index
+  * @return		Traingle area or 0 if index does not exist
+  */
+float triangleArea(unsigned point1, unsigned point2, unsigned point3);
 
 #endif	/* _LIB_H */
