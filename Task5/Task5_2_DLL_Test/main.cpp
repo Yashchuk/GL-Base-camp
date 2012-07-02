@@ -14,6 +14,11 @@ int main()
 {
 	string s1, s2;
 	
+	if (!loadUpDll())
+	{
+		return 1;
+	}
+
 	cout << "Enter two strings" << endl;
 	getline(cin, s1);
 	getline(cin, s2);
@@ -24,6 +29,8 @@ int main()
 	cout << "Strings are " << (areEqual(s1, s2) ? "equal" : "not equal") << endl;
 
 	cout << "Strings " << (containAllCharacters(s1, s2) ? "have " : "dont have ") << "the same set of characters" << endl;
+
+	unloadDll();
 
 	return 0;
 }

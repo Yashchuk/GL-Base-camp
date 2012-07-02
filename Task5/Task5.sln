@@ -39,6 +39,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_2_LIB_Test", "Task5_2
 		{0249EE97-5EE7-4221-9336-F89A7274A4D2} = {0249EE97-5EE7-4221-9336-F89A7274A4D2}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_2_DLL", "Task5_2_DLL\Task5_2_DLL.vcxproj", "{E5BA9888-67C6-4E35-8F65-B2C524C91A4D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Task5_2_DLL_Test", "Task5_2_DLL_Test\Task5_2_DLL_Test.vcxproj", "{03131E94-0A75-4BE1-B577-AA4BACE8BC8E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5BA9888-67C6-4E35-8F65-B2C524C91A4D} = {E5BA9888-67C6-4E35-8F65-B2C524C91A4D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -93,6 +100,14 @@ Global
 		{C79134B8-705D-4FB7-A644-D10306D9FF5A}.Debug|Win32.Build.0 = Debug|Win32
 		{C79134B8-705D-4FB7-A644-D10306D9FF5A}.Release|Win32.ActiveCfg = Release|Win32
 		{C79134B8-705D-4FB7-A644-D10306D9FF5A}.Release|Win32.Build.0 = Release|Win32
+		{E5BA9888-67C6-4E35-8F65-B2C524C91A4D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5BA9888-67C6-4E35-8F65-B2C524C91A4D}.Debug|Win32.Build.0 = Debug|Win32
+		{E5BA9888-67C6-4E35-8F65-B2C524C91A4D}.Release|Win32.ActiveCfg = Release|Win32
+		{E5BA9888-67C6-4E35-8F65-B2C524C91A4D}.Release|Win32.Build.0 = Release|Win32
+		{03131E94-0A75-4BE1-B577-AA4BACE8BC8E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{03131E94-0A75-4BE1-B577-AA4BACE8BC8E}.Debug|Win32.Build.0 = Debug|Win32
+		{03131E94-0A75-4BE1-B577-AA4BACE8BC8E}.Release|Win32.ActiveCfg = Release|Win32
+		{03131E94-0A75-4BE1-B577-AA4BACE8BC8E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

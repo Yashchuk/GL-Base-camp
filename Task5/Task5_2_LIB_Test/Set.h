@@ -100,8 +100,6 @@ unsigned mergeSets(unsigned setId1, unsigned setId2);
   * @param		[in] setId2 Second set id
   * @return		Id of new set
   */
-unsigned itersectSets(unsigned setId1, unsigned setId2);
-
-
+unsigned intersectSets(unsigned setId1, unsigned setId2);
 
 #endif	/* _SET_H */
