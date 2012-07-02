@@ -21,6 +21,11 @@ LineSegment createLineSegment(float a, float b)
 	}
 	else
 	{
+		if (a == b)
+		{
+			ls.empty = true;
+		}
+
 		ls.a = a;
 		ls.b = b;
 	}
@@ -34,6 +39,7 @@ LineSegment getLineCrossingSegment(LineSegment &ls1, LineSegment &ls2)
 	
 	if (ls1.b < ls2.a || ls1.a > ls2.b)
 	{
+		ls.empty = true;
 		return ls;
 	}
 
