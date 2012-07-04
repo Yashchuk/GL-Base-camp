@@ -43,12 +43,16 @@ bool containAllCharacters(string &str1, string &str2)
 		addElement(setId2, str2[i]);
 	}
 
-	unsigned setId3 = intersectSets(setId1, setId2);
-
 	bool equal = true;
-	for (int i = 0; i < str1.length(); i++)
+
+	SetElement *pData = getData(setId1);
+
+	unsigned l = dataSize(setId1);
+	unsigned t = 0;
+	for (int i = 0; i < l; i++)
 	{
-		if (getOccurrences(setId1, str1[i]) < getOccurrences(setId3, str1[i]))
+		t = getOccurrences(setId2, pData[i].number);
+		if (!t || pData[i].nOccurrences > t)
 		{
 			equal = false;
 			break;
@@ -57,7 +61,6 @@ bool containAllCharacters(string &str1, string &str2)
 
 	removeSet(setId1);
 	removeSet(setId2);
-	removeSet(setId3);
 
 	return equal;
 }

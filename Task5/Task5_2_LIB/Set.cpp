@@ -1,6 +1,5 @@
 #include "Set.h"
 #include <vector>
-#include <list>
 #include <iterator>
 
 using namespace std;
@@ -11,11 +10,11 @@ struct MultiSet
 	vector<SetElement> data;
 };
 
-list<MultiSet> sets;
+vector<MultiSet> sets;
 
 SetElement* getData(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -28,7 +27,7 @@ SetElement* getData(unsigned setId)
 
 unsigned dataSize(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -41,7 +40,7 @@ unsigned dataSize(unsigned setId)
 
 bool exists(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -57,7 +56,7 @@ unsigned addSet()
 	MultiSet m;
 
 	unsigned prevId = 0;
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId > prevId + 1)
 		{
@@ -79,7 +78,7 @@ unsigned addSet()
 
 bool removeSet(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -93,7 +92,7 @@ bool removeSet(unsigned setId)
 
 void clear(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -105,7 +104,7 @@ void clear(unsigned setId)
 
 bool isEmpty(unsigned setId)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -118,7 +117,7 @@ bool isEmpty(unsigned setId)
 
 bool addElement(unsigned setId, unsigned num)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -152,7 +151,7 @@ bool addElement(unsigned setId, unsigned num)
 
 bool removeElement(unsigned setId, unsigned num)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -179,7 +178,7 @@ bool removeElement(unsigned setId, unsigned num)
 
 unsigned getOccurrences(unsigned setId, unsigned num)
 {
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId)
 		{
@@ -200,11 +199,11 @@ unsigned getOccurrences(unsigned setId, unsigned num)
 
 unsigned mergeSets(unsigned setId1, unsigned setId2)
 {
-	list<MultiSet>::iterator setIt1, setIt2;
+	vector<MultiSet>::iterator setIt1, setIt2;
 	bool f1, f2;
 	f1 = f2 = false;
 
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId1)
 		{
@@ -257,7 +256,7 @@ unsigned mergeSets(unsigned setId1, unsigned setId2)
 	}
 
 	unsigned newSetId = addSet();
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == newSetId)
 		{
@@ -272,11 +271,11 @@ unsigned mergeSets(unsigned setId1, unsigned setId2)
 
 unsigned intersectSets(unsigned setId1, unsigned setId2)
 {
-	list<MultiSet>::iterator setIt1, setIt2;
+	vector<MultiSet>::iterator setIt1, setIt2;
 	bool f1, f2;
 	f1 = f2 = false;
 
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == setId1)
 		{
@@ -317,7 +316,7 @@ unsigned intersectSets(unsigned setId1, unsigned setId2)
 	}
 
 	unsigned newSetId = addSet();
-	for (list<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
+	for (vector<MultiSet>::iterator it = sets.begin(); it != sets.end(); it++)
 	{
 		if (it->setId == newSetId)
 		{
