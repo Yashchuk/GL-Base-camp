@@ -8,33 +8,56 @@ XorEncryptor::XorEncryptor()
 
 XorEncryptor::~XorEncryptor()
 {
-	
 }
 
-bool XorEncryptor::encryptData(char *data, size_t dataSize)
+bool XorEncryptor::encryptData(std::fstream &original, std::fstream &result)
 {
-	for (size_t i = 0, j = 0; i < dataSize; i++, j++)
+	if (!original.is_open() || !result.is_open())
 	{
-		if (j == passSize)
+		return false;
+	}
+
+	original.seekg(0, std::ios::beg);
+	result.seekp(0, std::ios::beg);
+
+	char c = 0;
+	unsigned i = 0;
+	while (original.good())
+	{
+		original >> c;
+		result << (c ^ password[i]);
+
+		if (++i == passSize)
 		{
-			j = 0;
+			i = 0;
 		}
-		data[i] ^= password[j];
 	}
 
 	return true;
 }
 
-bool XorEncryptor::decryptData(char *buf, size_t bufSize)
+bool XorEncryptor::decryptData(std::fstream &original, std::fstream &result)
 {
-	for (size_t i = 0, j = 0; i < bufSize; i++, j++)
+	if (!original.is_open() || !result.is_open())
 	{
-		if (j == passSize)
-		{
-			j = 0;
-		}
-		buf[i] ^= password[j];
+		return false;
 	}
-	
+
+	original.seekg(0, std::ios::beg);
+	result.seekp(0, std::ios::beg);
+
+	char c = 0;
+	unsigned i = 0;
+	while (original.good())
+	{
+		original >> c;
+		result << (c ^ password[i]);
+
+		if (++i == passSize)
+		{
+			i = 0;
+		}
+	}
+
 	return true;
 }

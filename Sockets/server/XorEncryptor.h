@@ -12,8 +12,8 @@ private:
 public:
 	XorEncryptor();
 	~XorEncryptor();
-	bool encryptData(char *data, size_t dataSize);
-	bool decryptData(char *buf, size_t bufSize);
+	bool encryptData(std::fstream &original, std::fstream &result);
+	bool decryptData(std::fstream &original, std::fstream &result);
 };
 
 #endif	/* _XOR_ENCRYPTOR_H */

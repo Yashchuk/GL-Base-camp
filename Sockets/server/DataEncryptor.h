@@ -1,6 +1,8 @@
 #ifndef _DATA_ENCRYPTOR_H
 #define _DATA_ENCRYPTOR_H
 
+#include <fstream>
+
 class DataEncryptor
 {
 protected:
@@ -10,8 +12,8 @@ protected:
 
 public:
 	virtual ~DataEncryptor() { };
-	virtual bool encryptData(char *data, size_t dataSize) = 0;
-	virtual bool decryptData(char *buf, size_t bufSize) = 0;
+	virtual bool encryptData(std::fstream &original, std::fstream &result) = 0;
+	virtual bool decryptData(std::fstream &original, std::fstream &result) = 0;
 };
 
 #endif	/* _DATA_ENCRYPTOR_H */

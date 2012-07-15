@@ -5,6 +5,7 @@ using std::cout;
 using std::endl;
 
 SOCKET createSocket();
+void sendFile(TcpClient *client, const char *fname);
 
 enum
 {
@@ -38,7 +39,7 @@ int main()
 
 	if (mask & OK)
 	{
-		unsigned size = sizeof("user\n525");
+		unsigned size = sizeof("user\n525") + 1;
 		client.send((char*)&size, 4);
 		client.send("user4\n525", size);
 
@@ -47,6 +48,8 @@ int main()
 		if (mask & OK)
 		{
 			cout << "Authorized" << endl;
+
+			sendFile(&client, "G:\\task4.pdf");
 		}
 	}
 
@@ -69,4 +72,8 @@ SOCKET createSocket()
 	}
 
 	return client;
+}
+
+void sendFile(TcpClient *client, const char *fname)
+{
 }
