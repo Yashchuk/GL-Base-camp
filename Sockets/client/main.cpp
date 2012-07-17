@@ -53,7 +53,7 @@ int main()
 		{
 			cout << "Authorized" << endl;
 
-			cout << boolalpha << sendFile(&client, "G:\\Task 5.dat", "G:\\Task 5_2.docx");
+			cout << boolalpha << sendFile(&client, "G:\\Task 62.docx", "G:\\Task 63.docx");
 		}
 	}
 

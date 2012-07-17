@@ -1,6 +1,5 @@
 #include "EncryptionServer.h"
 #include "TempFile.h"
-#include <iostream>
 #include <cstdint>
 
 #define CHUNK_SIZE 2048
@@ -15,10 +14,11 @@ enum
 	QUIT = 32
 };
 
-EncryptionServer::EncryptionServer(DataEncryptor *de, UserDatabase *db)
+EncryptionServer::EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log)
 {
 	this->de = de;
 	this->db = db;
+	this->log = log;
 }
 
 EncryptionServer::~EncryptionServer()
@@ -40,7 +40,6 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 
 		if (authorize(client))
 		{
-			printf("User connected");
 			mask = OK;
 			client->send(&mask, 1);
 
@@ -60,16 +59,30 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 					mask = OK;
 					client->send(&mask, 1);
 
-					printf("Encrypting...");
-					if (!encrypt(client))
+					(*log) << client->socketDecriptor() << ": Encrypting data..." << std::endl; 
+					if (!encrypt(client, false))
 					{
-						printf("Error");
+						(*log) << client->socketDecriptor() << ": Error occured while encrypting data" << std::endl; 
 					}
-					printf("Finished");
+					else
+					{
+						(*log) << client->socketDecriptor() << ": Encryption finished" << std::endl; 
+					}
 				}
 				else if (mask & DECRYPT)
 				{
-					decrypt(client);
+					mask = OK;
+					client->send(&mask, 1);
+
+					(*log) << client->socketDecriptor() << ": Decrypting data..." << std::endl; 
+					if (!encrypt(client, true))
+					{
+						(*log) << client->socketDecriptor() << ": Error occured while decrypting data" << std::endl; 
+					}
+					else
+					{
+						(*log) << client->socketDecriptor() << ": Decryption finished" << std::endl; 
+					}
 				}
 
 				mask = 0;
@@ -83,6 +96,8 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 			client->send(&mask, 1);
 		}
 	}
+
+	(*log) << client->socketDecriptor() << ": User disconnected" << std::endl;
 
 	delete client;
 }
@@ -126,6 +141,8 @@ bool EncryptionServer::authorize(TcpClient *client)
 		{
 			res = true;
 		}
+
+		(*log) << client->socketDecriptor() << ": User " << buf << " connected" << std::endl; 
 	}
 
 	delete[] buf;
@@ -133,7 +150,7 @@ bool EncryptionServer::authorize(TcpClient *client)
 	return res;
 }
 
-bool EncryptionServer::encrypt(TcpClient *client)
+bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 {
 	uint32_t size;
 	bool res = true;
@@ -174,9 +191,13 @@ bool EncryptionServer::encrypt(TcpClient *client)
 			memset(buf, 0, CHUNK_SIZE);
 		}
 
+
 		fileFrom->getStream()->flush();
 
-		if (!de->encryptData(*fileFrom->getStream(), *fileTo->getStream()))
+		bool res = decrypt ? de->decryptData(*fileFrom->getStream(), *fileTo->getStream())
+			: de->encryptData(*fileFrom->getStream(), *fileTo->getStream());
+
+		if (!res)
 		{
 			res = false;
 		}
@@ -214,9 +235,4 @@ bool EncryptionServer::encrypt(TcpClient *client)
 	delete[] buf;
 	
 	return res;
-}
-
-bool EncryptionServer::decrypt(TcpClient *client)
-{
-	return true;
 }

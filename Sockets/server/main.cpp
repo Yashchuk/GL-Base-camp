@@ -10,7 +10,7 @@ int main()
 	DataEncryptor *de = new XorEncryptor();
 
 	UserDatabase *udb = new FileDatabase("G:\\users.txt");
-	EncryptionServer *server = new EncryptionServer(de, udb);
+	EncryptionServer *server = new EncryptionServer(de, udb, &cout);
 
 	server->listen(4000, 10);
 

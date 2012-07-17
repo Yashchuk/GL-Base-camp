@@ -5,19 +5,20 @@
 #include "UserDatabase.h"
 #include "DataEncryptor.h"
 #include "TcpClient.h"
+#include <ostream>
 
 class EncryptionServer : public TcpServer
 {
 private:
 	UserDatabase *db;
 	DataEncryptor *de;
+	std::ostream *log;
 
-	bool encrypt(TcpClient *client);
-	bool decrypt(TcpClient *client);
+	bool encrypt(TcpClient *client, bool decrypt);
 	bool authorize(TcpClient *client);
 
 public:
-	EncryptionServer(DataEncryptor *de, UserDatabase *db);
+	EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log = NULL);
 	~EncryptionServer();
 	
 protected:
