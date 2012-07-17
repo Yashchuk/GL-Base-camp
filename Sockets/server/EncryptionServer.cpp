@@ -1,12 +1,9 @@
 #include "EncryptionServer.h"
+#include "TempFile.h"
 #include <iostream>
-#include <cstdio>
 #include <cstdint>
 
 #define CHUNK_SIZE 2048
-#define TMP_NAME_LEN 128
-
-#undef ERROR
 
 enum
 {
@@ -14,7 +11,7 @@ enum
 	DECRYPT = 2,
 	LOGIN = 4,
 	OK = 8,
-	ERROR = 16,
+	ERR = 16,
 	QUIT = 32
 };
 
@@ -43,12 +40,16 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 
 		if (authorize(client))
 		{
+			printf("User connected");
 			mask = OK;
 			client->send(&mask, 1);
 
 			while (true)
 			{
-				client->read(&mask, 1);
+				if (client->read(&mask, 1) == -1)
+				{
+					break;
+				}
 				
 				if (mask & QUIT)
 				{
@@ -56,19 +57,29 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 				}
 				else if (mask & ENCRYPT)
 				{
-					encrypt(client);
+					mask = OK;
+					client->send(&mask, 1);
+
+					printf("Encrypting...");
+					if (!encrypt(client))
+					{
+						printf("Error");
+					}
+					printf("Finished");
 				}
 				else if (mask & DECRYPT)
 				{
 					decrypt(client);
 				}
 
+				mask = 0;
+
 				Sleep(1);
 			}
 		}
 		else
 		{
-			mask = ERROR;
+			mask = ERR;
 			client->send(&mask, 1);
 		}
 	}
@@ -133,24 +144,19 @@ bool EncryptionServer::encrypt(TcpClient *client)
 	}
 
 	char *buf;
-	char *fname1, *fname2;
 	try
 	{
 		buf = new char[CHUNK_SIZE];
-		fname1 = new char[TMP_NAME_LEN];
-		fname2 = new char[TMP_NAME_LEN];
 	}
 	catch(std::bad_alloc)
 	{
 		return false;
 	}
 
-	tmpnam_s(fname1, TMP_NAME_LEN);
-	std::fstream fileFrom(fname1, std::ios_base::binary | std::ios_base::in, std::ios_base::out);
-	tmpnam_s(fname2, TMP_NAME_LEN);
-	std::fstream fileTo(fname2, std::ios_base::binary | std::ios_base::in, std::ios_base::out);
+	TempFile *fileFrom = new TempFile();
+	TempFile *fileTo = new TempFile();
 
-	if (fileFrom.is_open() && fileTo.is_open())
+	if (fileFrom->getStream()->is_open() && fileTo->getStream()->is_open())
 	{
 		uint32_t totalReceived = 0;
 		int received;
@@ -163,34 +169,38 @@ bool EncryptionServer::encrypt(TcpClient *client)
 				break;
 			}
 
-			fileFrom.write(buf, received);
+			fileFrom->getStream()->write(buf, received);
 			totalReceived += received;
+			memset(buf, 0, CHUNK_SIZE);
 		}
 
-		if (!de->encryptData(fileFrom, fileTo))
+		fileFrom->getStream()->flush();
+
+		if (!de->encryptData(*fileFrom->getStream(), *fileTo->getStream()))
 		{
 			res = false;
 		}
 		else
 		{
-			fileTo.seekg(0, std::ios::beg);
-
-			uint32_t tmp = fileTo.tellg();
-			fileTo.seekg(0, std::ios::end);
-			size = fileTo.tellg();
+			fileTo->getStream()->seekg(0, std::ios::beg);
+			uint32_t tmp = fileTo->getStream()->tellg();
+			fileTo->getStream()->seekg(0, std::ios::end);
+			size = fileTo->getStream()->tellg();
 			size -= tmp;
+			fileTo->getStream()->seekg(0, std::ios::beg);
 
 			client->send((char*)&size, 4);
 
 			res = true;
-			while (fileTo.good())
+			while (fileTo->getStream()->good())
 			{
-				fileTo.read(buf, CHUNK_SIZE);
-				if (!client->send(buf, CHUNK_SIZE))
+				fileTo->getStream()->read(buf, CHUNK_SIZE);
+				if (!client->send(buf, fileTo->getStream()->gcount()))
 				{
 					res = false;
 					break;
 				}
+				memset(buf, 0, CHUNK_SIZE);
 			}
 		}
 	}
@@ -199,15 +209,9 @@ bool EncryptionServer::encrypt(TcpClient *client)
 		res = false;
 	}
 
-	fileFrom.close();
-	remove(fname1);
-
-	fileTo.close();
-	remove(fname2);
-
+	delete fileFrom;
+	delete fileTo;
 	delete[] buf;
-	delete[] fname1;
-	delete[] fname2;
 	
 	return res;
 }

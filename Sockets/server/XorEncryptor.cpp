@@ -24,14 +24,19 @@ bool XorEncryptor::encryptData(std::fstream &original, std::fstream &result)
 	unsigned i = 0;
 	while (original.good())
 	{
-		original >> c;
-		result << (c ^ password[i]);
+		original.read(&c, 1);
+		c ^= password[i];
+		result.write(&c, 1);
 
 		if (++i == passSize)
 		{
 			i = 0;
 		}
 	}
+
+	original.seekg(0, std::ios::beg);
+	result.seekg(0, std::ios::beg);
+	result.flush();
 
 	return true;
 }
@@ -50,14 +55,19 @@ bool XorEncryptor::decryptData(std::fstream &original, std::fstream &result)
 	unsigned i = 0;
 	while (original.good())
 	{
-		original >> c;
-		result << (c ^ password[i]);
+		original.read(&c, 1);
+		c ^= password[i];
+		result.write(&c, 1);
 
 		if (++i == passSize)
 		{
 			i = 0;
 		}
 	}
+
+	original.seekg(0, std::ios::beg);
+	result.seekg(0, std::ios::beg);
+	result.flush();
 
 	return true;
 }

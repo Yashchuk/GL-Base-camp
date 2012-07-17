@@ -14,10 +14,7 @@ int main()
 
 	server->listen(4000, 10);
 
-	while (true)
-	{
-		Sleep(1);
-	}
+	server->wait();
 
 	delete server;
 	delete de;

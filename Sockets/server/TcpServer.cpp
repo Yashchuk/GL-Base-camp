@@ -12,6 +12,7 @@ TcpServer::TcpServer()
 	hThread = NULL;
 	WSADATA wsaData;
     initialized = (WSAStartup(0x101, &wsaData) == 0);
+	listening = false;
 }
 
 TcpServer::~TcpServer()
@@ -70,6 +71,7 @@ bool TcpServer::listen(unsigned port, unsigned maxPendingConnections)
 		return false;
 	}
 
+	listening = true;
 	return true;
 }
 
@@ -120,9 +122,25 @@ void TcpServer::close()
 		}
 		closesocket(serverSocket);
 		serverSocket = NULL;
+		listening = false;
 	}
 }
 
 void TcpServer::incomingConnection(SOCKET socket)
 {
+}
+
+bool TcpServer::wait()
+{
+	if (initialized && listening)
+	{
+		if (WaitForSingleObject(hThread, INFINITE) == WAIT_FAILED)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	return false;
 }

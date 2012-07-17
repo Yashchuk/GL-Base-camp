@@ -10,8 +10,6 @@ protected:
 
 public:
 	virtual bool hasUser(const char *login, const char *password) = 0;
-	virtual bool adduser(const char *login, const char *password) = 0;
-	virtual bool removeUser(const char *login, const char *password) = 0;
 	virtual ~UserDatabase() { };
 };
 

@@ -6,6 +6,7 @@ class TcpServer
 {
 private:
 	bool initialized;
+	bool listening;
 	HANDLE hThread;
 
 	int listenThread();
@@ -19,6 +20,7 @@ public:
 	virtual ~TcpServer();
 	bool listen(unsigned port, unsigned maxPendingConnections);
 	void close();
+	bool wait();
 
 protected:
 	SOCKET serverSocket;
