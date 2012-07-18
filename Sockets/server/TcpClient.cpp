@@ -41,10 +41,10 @@ bool TcpClient::connect(const char *address, unsigned port)
 	client.sin_addr.s_addr = inet_addr(address);
 	client.sin_port = htons(port);
 
-    if (::connect(socket, (SOCKADDR*)&client, sizeof(client)) == SOCKET_ERROR) 
+	if (::connect(socket, (SOCKADDR*)&client, sizeof(client)) == SOCKET_ERROR) 
 	{
 		return false;
-    }
+	}
 
 	return true;
 }
@@ -72,7 +72,7 @@ int TcpClient::read(char *buf, size_t bufSize)
 	}
 	
 	int res = 0;
-    res = recv(socket, buf, bufSize, 0);
+	res = recv(socket, buf, bufSize, 0);
 	if (res == SOCKET_ERROR)
 	{
 		return -1;

@@ -21,6 +21,7 @@ TempFile::TempFile()
 		return;
 	}
 
+	// Create buffer for conaining generated temporary file name
 	try
 	{
 		fileName = new char[MAX_PATH];
@@ -31,8 +32,10 @@ TempFile::TempFile()
 		return;
 	}
 
+	// Get temporary file name
     if (GetTempFileName("tmp", "tmp", 0, fileName))
     {
+		// Create file
 		HANDLE hTempFile = CreateFile(fileName, GENERIC_READ, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
 		if (hTempFile != INVALID_HANDLE_VALUE) 
@@ -50,6 +53,7 @@ TempFile::TempFile()
 
 TempFile::~TempFile()
 {
+	// Close stream and delete file
 	if (fileName && stream.is_open())
 	{
 		stream.close();

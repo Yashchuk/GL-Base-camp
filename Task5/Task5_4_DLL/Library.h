@@ -1,7 +1,7 @@
 /** 
   * @file	Library.h
   * @brief	Simple implementation of logic around 2d lines and points
-  *	@author	Vitaliy Sidenko
+  * @author	Vitaliy Sidenko
   * @date	30/06/2012
   */
 

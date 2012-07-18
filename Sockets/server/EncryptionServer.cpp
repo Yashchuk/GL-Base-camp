@@ -2,16 +2,16 @@
 #include "TempFile.h"
 #include <cstdint>
 
-#define CHUNK_SIZE 2048
+#define CHUNK_SIZE 2048		// Buffer size
 
 enum
 {
-	ENCRYPT = 1,
-	DECRYPT = 2,
-	LOGIN = 4,
-	OK = 8,
-	ERR = 16,
-	QUIT = 32
+	ENCRYPT = 1,	// Encrypt data
+	DECRYPT = 2,	// Decrypt data
+	LOGIN = 4,		// Authorize user
+	OK = 8,			// Operation successfull
+	ERR = 16,		// Error
+	QUIT = 32		// Disconnect
 };
 
 EncryptionServer::EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log)
@@ -31,20 +31,24 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 
 	char mask;
 
+	// Get command from client
 	client->read(&mask, 1);
 
 	if (mask & LOGIN)
 	{
+		// Allow to login
 		mask = OK;
 		client->send(&mask, 1);
 
 		if (authorize(client))
 		{
+			// Send authorization confirmation
 			mask = OK;
 			client->send(&mask, 1);
 
 			while (true)
 			{
+				// Get next command from client
 				if (client->read(&mask, 1) == -1)
 				{
 					break;
@@ -56,11 +60,14 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 				}
 				else if (mask & ENCRYPT)
 				{
+					/* Data encrypting */
+
+					// Send encryption confirmation
 					mask = OK;
 					client->send(&mask, 1);
 
 					(*log) << client->socketDecriptor() << 
-						": Encrypting data..." << std::endl; 
+						": Encrypting data..." << std::endl;
 					if (!encrypt(client, false))
 					{
 						(*log) << client->socketDecriptor() << 
@@ -74,6 +81,9 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 				}
 				else if (mask & DECRYPT)
 				{
+					/* Data encrypting */
+					
+					// Send decryption confirmation
 					mask = OK;
 					client->send(&mask, 1);
 
@@ -100,6 +110,7 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 		}
 		else
 		{
+			// Send error message
 			mask = ERR;
 			client->send(&mask, 1);
 		}
@@ -113,11 +124,13 @@ bool EncryptionServer::authorize(TcpClient *client)
 	uint32_t size;
 	bool res = false;
 
+	// Acquire incoming data size
 	if (client->read((char*)&size, 4) <= 0)
 	{
 		return res;
 	}
 
+	// Create temporary buffer
 	char *buf;
 	try
 	{
@@ -128,8 +141,10 @@ bool EncryptionServer::authorize(TcpClient *client)
 		return false;
 	}
 
+	// Get user login and password
 	if (client->read(buf, size) > 0)
 	{
+		// Separate them
 		bool ok = false;
 		uint32_t passOffset = 0;
 		for (uint32_t i = 0; i < size; i++)
@@ -143,6 +158,7 @@ bool EncryptionServer::authorize(TcpClient *client)
 			}
 		}
 
+		// Check in database
 		if (ok && db->hasUser(buf, buf + passOffset))
 		{
 			res = true;
@@ -162,11 +178,13 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 	uint32_t size;
 	bool res = true;
 
+	// Acquire incoming data size
 	if (client->read((char*)&size, 4) <= 0)
 	{
 		return false;
 	}
 
+	// Create temporary buffer
 	char *buf;
 	try
 	{
@@ -177,11 +195,13 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 		return false;
 	}
 
+	// Create two temporary files to save original end resulting data
 	TempFile *fileFrom = new TempFile();
 	TempFile *fileTo = new TempFile();
 
 	if (fileFrom->getStream()->is_open() && fileTo->getStream()->is_open())
 	{
+		// Read data from socket to file using temporary buffer
 		uint32_t totalReceived = 0;
 		int received;
 		while (totalReceived < size)
@@ -199,6 +219,8 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 
 		fileFrom->getStream()->flush();
 
+		// Decrypt or encrypt downloaded data (depending on 'decrypt' argument)
+		// fileTo should contain result of operation, if ok=true
 		bool ok = decrypt ? de->decryptData(*fileFrom->getStream(), *fileTo->getStream())
 			: de->encryptData(*fileFrom->getStream(), *fileTo->getStream());
 
@@ -208,15 +230,20 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 		}
 		else
 		{
+			// Get created file size
 			fileTo->getStream()->seekg(0, std::ios::beg);
 			uint32_t tmp = fileTo->getStream()->tellg();
 			fileTo->getStream()->seekg(0, std::ios::end);
 			size = fileTo->getStream()->tellg();
 			size -= tmp;
+
+			// Put get pointer in the beginning
 			fileTo->getStream()->seekg(0, std::ios::beg);
 
+			// Send file size
 			if (client->send((char*)&size, 4))
 			{
+				// Read and send file in chunks of 'CHUNK_SIZE' bytes
 				res = true;
 				while (fileTo->getStream()->good())
 				{
@@ -235,6 +262,7 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 		res = false;
 	}
 
+	// Delete temporary files and gree buffer memory
 	delete fileFrom;
 	delete fileTo;
 	delete[] buf;

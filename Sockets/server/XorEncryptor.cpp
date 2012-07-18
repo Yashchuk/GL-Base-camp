@@ -3,7 +3,7 @@
 
 XorEncryptor::XorEncryptor()
 {
-	password = "trololo";
+	password = "testpassword";
 	passSize = 7;
 }
 

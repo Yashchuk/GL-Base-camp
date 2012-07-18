@@ -41,32 +41,3 @@ bool FileDatabase::hasUser(const char *login, const char *password)
 
 	return false;
 }
-
-bool FileDatabase::adduser(const char *login, const char *password)
-{
-	if (!file.is_open() || !login || !password)
-	{
-		return false;
-	}
-	
-	if (hasUser(login, password))
-	{
-		return false;
-	}
-
-	file.clear();
-	file.seekp(0, std::ios::end);
-
-	file << login << ' ' << password << std::endl;
-	if (file.fail())
-	{
-		return false;
-	}
-
-	return true;
-}
-
-bool FileDatabase::removeUser(const char *login, const char *password)
-{
-	return false;
-}
