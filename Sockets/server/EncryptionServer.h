@@ -18,7 +18,7 @@ private:
 	bool authorize(TcpClient *client);
 
 public:
-	EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log = NULL);
+	EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log);
 	~EncryptionServer();
 	
 protected:

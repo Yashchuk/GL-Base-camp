@@ -19,5 +19,4 @@ int main()
 	delete server;
 	delete de;
 	delete udb;
-
 }

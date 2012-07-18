@@ -59,14 +59,17 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 					mask = OK;
 					client->send(&mask, 1);
 
-					(*log) << client->socketDecriptor() << ": Encrypting data..." << std::endl; 
+					(*log) << client->socketDecriptor() << 
+						": Encrypting data..." << std::endl; 
 					if (!encrypt(client, false))
 					{
-						(*log) << client->socketDecriptor() << ": Error occured while encrypting data" << std::endl; 
+						(*log) << client->socketDecriptor() << 
+							": Error occured while encrypting data" << std::endl; 
 					}
 					else
 					{
-						(*log) << client->socketDecriptor() << ": Encryption finished" << std::endl; 
+						(*log) << client->socketDecriptor() << 
+							": Encryption finished" << std::endl; 
 					}
 				}
 				else if (mask & DECRYPT)
@@ -74,14 +77,17 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 					mask = OK;
 					client->send(&mask, 1);
 
-					(*log) << client->socketDecriptor() << ": Decrypting data..." << std::endl; 
+					(*log) << client->socketDecriptor() << 
+						": Decrypting data..." << std::endl; 
 					if (!encrypt(client, true))
 					{
-						(*log) << client->socketDecriptor() << ": Error occured while decrypting data" << std::endl; 
+						(*log) << client->socketDecriptor() << 
+							": Error occured while decrypting data" << std::endl; 
 					}
 					else
 					{
-						(*log) << client->socketDecriptor() << ": Decryption finished" << std::endl; 
+						(*log) << client->socketDecriptor() << 
+							": Decryption finished" << std::endl; 
 					}
 				}
 
@@ -89,6 +95,8 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 
 				Sleep(1);
 			}
+
+			(*log) << client->socketDecriptor() << ": User disconnected" << std::endl;
 		}
 		else
 		{
@@ -96,8 +104,6 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 			client->send(&mask, 1);
 		}
 	}
-
-	(*log) << client->socketDecriptor() << ": User disconnected" << std::endl;
 
 	delete client;
 }
@@ -140,9 +146,10 @@ bool EncryptionServer::authorize(TcpClient *client)
 		if (ok && db->hasUser(buf, buf + passOffset))
 		{
 			res = true;
-		}
 
-		(*log) << client->socketDecriptor() << ": User " << buf << " connected" << std::endl; 
+			(*log) << client->socketDecriptor() << ": User " << 
+				buf << " connected" << std::endl; 
+		}
 	}
 
 	delete[] buf;
@@ -188,16 +195,14 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 
 			fileFrom->getStream()->write(buf, received);
 			totalReceived += received;
-			memset(buf, 0, CHUNK_SIZE);
 		}
-
 
 		fileFrom->getStream()->flush();
 
-		bool res = decrypt ? de->decryptData(*fileFrom->getStream(), *fileTo->getStream())
+		bool ok = decrypt ? de->decryptData(*fileFrom->getStream(), *fileTo->getStream())
 			: de->encryptData(*fileFrom->getStream(), *fileTo->getStream());
 
-		if (!res)
+		if (!ok)
 		{
 			res = false;
 		}
@@ -210,18 +215,18 @@ bool EncryptionServer::encrypt(TcpClient *client, bool decrypt)
 			size -= tmp;
 			fileTo->getStream()->seekg(0, std::ios::beg);
 
-			client->send((char*)&size, 4);
-
-			res = true;
-			while (fileTo->getStream()->good())
+			if (client->send((char*)&size, 4))
 			{
-				fileTo->getStream()->read(buf, CHUNK_SIZE);
-				if (!client->send(buf, fileTo->getStream()->gcount()))
+				res = true;
+				while (fileTo->getStream()->good())
 				{
-					res = false;
-					break;
+					fileTo->getStream()->read(buf, CHUNK_SIZE);
+					if (!client->send(buf, fileTo->getStream()->gcount()))
+					{
+						res = false;
+						break;
+					}
 				}
-				memset(buf, 0, CHUNK_SIZE);
 			}
 		}
 	}
