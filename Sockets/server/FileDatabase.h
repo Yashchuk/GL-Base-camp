@@ -9,12 +9,15 @@
 
 #include "UserDatabase.h"
 #include <fstream>
+#include <string>
 
 using std::fstream;
+using std::string;
 
 class FileDatabase : public UserDatabase
 {
 private:
+	string fname;
 	fstream file;
 
 public:
@@ -34,6 +37,22 @@ public:
 	  * @return			True if user is in database
       */
 	bool hasUser(const char *login, const char *password);
+
+	/**
+      * @brief			Add user to the database
+      * @param	[in]	login User login
+	  * @param	[in]	password User password
+	  * @return			False if error occured or user already in the database
+      */
+	bool addUser(const char *login, const char *password);
+
+	/**
+      * @brief			Remove user from the database
+      * @param	[in]	login User login
+	  * @param	[in]	password User password
+	  * @return			False if error occured or user is not in the database
+      */
+	bool removeUser(const char *login, const char *password);
 };
 
 #endif	/* _FILE_DATABASE_H */

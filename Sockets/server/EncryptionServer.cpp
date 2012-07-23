@@ -6,12 +6,12 @@
 
 enum
 {
-	ENCRYPT = 1,	// Encrypt data
-	DECRYPT = 2,	// Decrypt data
-	LOGIN = 4,		// Authorize user
-	OK = 8,			// Operation successfull
-	ERR = 16,		// Error
-	QUIT = 32		// Disconnect
+	ENCRYPT = 1,    // Encrypt data
+	DECRYPT = 2,    // Decrypt data
+	LOGIN = 4,      // Authorize user
+	OK = 8,         // Operation successfull
+	ERR = 16,       // Error
+	QUIT = 32       // Disconnect
 };
 
 EncryptionServer::EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log)

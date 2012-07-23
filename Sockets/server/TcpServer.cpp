@@ -44,8 +44,8 @@ bool TcpServer::listen(unsigned port, unsigned maxPendingConnections)
 	// Create server socket
 	sockaddr_in serverAddr;
 
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
+	serverAddr.sin_family = AF_INET;
+	serverAddr.sin_addr.s_addr = INADDR_ANY;
 	serverAddr.sin_port = htons(port);
 
 	serverSocket = socket(AF_INET, SOCK_STREAM, 0);
@@ -62,7 +62,7 @@ bool TcpServer::listen(unsigned port, unsigned maxPendingConnections)
 	}
 
 	if(::listen(serverSocket, maxPendingConnections))
-    {
+	{
 		close();
 		return false;
 	}
@@ -84,7 +84,7 @@ int TcpServer::startListenThread(void *instance)
 {
 	// Call listen method of given instance in current thread
 	TcpServer *temp = (TcpServer*)instance;
-    return temp->listenThread();
+	return temp->listenThread();
 }
 
 int TcpServer::startClientThread(void *param)
@@ -116,7 +116,7 @@ int TcpServer::listenThread()
 			DWORD threadId;
 			
 			// Create thread for interation with client
-			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)startClientThread, &p, 0, &threadId))
+			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)startClientThread, &p, 0, &threadId);
 		}
 		Sleep(1);
 	}
