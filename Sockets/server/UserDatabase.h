@@ -20,17 +20,18 @@ public:
       * @brief			Check if database contains user with given password
       * @param	[in]	login User login
 	  * @param	[in]	password User password
-	  * @return			True if user is in database
+	  * @return			1 if user is in database, 2 if user is admistrator, else - 0
       */
-	virtual bool hasUser(const char *login, const char *password) = 0;
+	virtual int hasUser(const char *login, const char *password) = 0;
 
 	/**
       * @brief			Add user to the database
       * @param	[in]	login User login
 	  * @param	[in]	password User password
+	  * @param	[in]	admin User is admin
 	  * @return			False if error occured or user already in the database
       */
-	virtual bool addUser(const char *login, const char *password) = 0;
+	virtual bool addUser(const char *login, const char *password, bool admin) = 0;
 
 	/**
       * @brief			Remove user from the database

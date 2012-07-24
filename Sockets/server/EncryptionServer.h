@@ -31,9 +31,11 @@ private:
 	/**
       * @brief			Try authorize client
 	  * @param	[in]	client Pointer to client object
-	  * @return			False if client is not in database of error occurred
+	  * @return			0 if client is not in database of error occurred
       */
-	bool authorize(TcpClient *client);
+	int authorize(TcpClient *client);
+
+	bool addUser(TcpClient *client);
 
 public:
 

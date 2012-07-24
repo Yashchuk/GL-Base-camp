@@ -6,12 +6,13 @@
 
 enum
 {
-	ENCRYPT = 1,    // Encrypt data
-	DECRYPT = 2,    // Decrypt data
-	LOGIN = 4,      // Authorize user
-	OK = 8,         // Operation successfull
-	ERR = 16,       // Error
-	QUIT = 32       // Disconnect
+	ENCRYPT = 1,      // Encrypt data
+	DECRYPT = 2,      // Decrypt data
+	LOGIN = 4,        // Authorize user
+	OK = 8,           // Operation successfull
+	ERR = 16,         // Error
+	QUIT = 32,        // Disconnect
+	ADD_USER = 64,    // Add new user
 };
 
 EncryptionServer::EncryptionServer(DataEncryptor *de, UserDatabase *db, std::ostream *log)
@@ -29,6 +30,7 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 {
 	TcpClient *client = new TcpClient(socket);
 
+	bool admin = false;
 	char mask;
 
 	// Get command from client
@@ -40,8 +42,14 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 		mask = OK;
 		client->send(&mask, 1);
 
-		if (authorize(client))
+		int res = authorize(client);
+		if (res)
 		{
+			if (res == 2)
+			{
+				admin = true;
+			}
+			
 			// Send authorization confirmation
 			mask = OK;
 			client->send(&mask, 1);
@@ -100,6 +108,33 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 							": Decryption finished" << std::endl; 
 					}
 				}
+				else if (mask & ADD_USER)
+				{
+					/* Add new user */
+					
+					// Check if user is admin
+					if (admin)
+					{
+						mask = OK;
+						client->send(&mask, 1);
+
+						if (addUser(client))
+						{
+							mask = OK;
+						}
+						else
+						{
+							mask = ERR;
+						}
+
+						client->send(&mask, 1);
+					}
+					else
+					{
+						mask = ERR;
+						client->send(&mask, 1);
+					}
+				}
 
 				mask = 0;
 
@@ -119,7 +154,7 @@ void EncryptionServer::incomingConnection(SOCKET socket)
 	delete client;
 }
 
-bool EncryptionServer::authorize(TcpClient *client)
+bool EncryptionServer::addUser(TcpClient *client)
 {
 	uint32_t size;
 	bool res = false;
@@ -127,7 +162,7 @@ bool EncryptionServer::authorize(TcpClient *client)
 	// Acquire incoming data size
 	if (client->read((char*)&size, 4) <= 0)
 	{
-		return res;
+		return false;
 	}
 
 	// Create temporary buffer
@@ -158,13 +193,67 @@ bool EncryptionServer::authorize(TcpClient *client)
 			}
 		}
 
-		// Check in database
-		if (ok && db->hasUser(buf, buf + passOffset))
+		// Try to add user
+		if (ok)
 		{
-			res = true;
+			res = db->addUser(buf, buf + passOffset, false);
+		}
+	}
 
-			(*log) << client->socketDecriptor() << ": User " << 
-				buf << " connected" << std::endl; 
+	delete[] buf;
+
+	return res;
+}
+
+int EncryptionServer::authorize(TcpClient *client)
+{
+	uint32_t size;
+	int res = 0;
+
+	// Acquire incoming data size
+	if (client->read((char*)&size, 4) <= 0)
+	{
+		return 0;
+	}
+
+	// Create temporary buffer
+	char *buf;
+	try
+	{
+		buf = new char[size];
+	}
+	catch(...)
+	{
+		return 0;
+	}
+
+	// Get user login and password
+	if (client->read(buf, size) > 0)
+	{
+		// Separate them
+		bool ok = false;
+		uint32_t passOffset = 0;
+		for (uint32_t i = 0; i < size; i++)
+		{
+			if (buf[i] == '\n')
+			{
+				ok = true;
+				buf[i] = '\0';
+				passOffset = i + 1;
+				break;
+			}
+		}
+
+		// Check in database
+		if (ok)
+		{
+			res = db->hasUser(buf, buf + passOffset);
+
+			if (res)
+			{
+				(*log) << client->socketDecriptor() << ": User " << 
+					buf << " connected" << std::endl;
+			}
 		}
 	}
 
