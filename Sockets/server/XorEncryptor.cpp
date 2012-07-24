@@ -1,14 +1,16 @@
 #include "XorEncryptor.h"
 #include <iostream>
 
-XorEncryptor::XorEncryptor()
+XorEncryptor::XorEncryptor(const char *pass, size_t passLen)
 {
-	password = "testpassword";
-	passSize = 7;
+	password = new char[passLen];
+	passSize = passLen;
+	memcpy(password, pass, passLen);
 }
 
 XorEncryptor::~XorEncryptor()
 {
+	delete[] password;
 }
 
 bool XorEncryptor::encryptData(std::fstream &original, std::fstream &result)

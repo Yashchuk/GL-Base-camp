@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{082C442F-BB45-429D-97B2-B2D9FADBD42B}</ProjectGuid>
+    <ProjectGuid>{04099356-AEE5-465C-A6BA-36B0DEEBED7C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>sockets</RootNamespace>
+    <RootNamespace>server_test</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -54,7 +54,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>server.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -75,12 +75,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="EncryptionServer.cpp" />
-    <ClCompile Include="FileDatabase.cpp" />
-    <ClCompile Include="TcpClient.cpp" />
-    <ClCompile Include="TcpServer.cpp" />
-    <ClCompile Include="TempFile.cpp" />
-    <ClCompile Include="XorEncryptor.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataEncryptor.h" />

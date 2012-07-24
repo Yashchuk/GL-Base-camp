@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	DataEncryptor *de = new XorEncryptor();
+	DataEncryptor *de = new XorEncryptor("testpassword", 12);
 
 	UserDatabase *udb = new FileDatabase("G:\\users.txt");
 
